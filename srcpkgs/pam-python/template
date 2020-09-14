@@ -1,0 +1,21 @@
+# Template file for 'pam-python'
+pkgname=pam-python
+version=1.0.7
+revision=1
+build_style=gnu-makefile
+make_build_args="CPPFLAGS='-DDEFAULT_SECURITY_DIR=\"/usr/lib/security\"'"
+make_install_args="LIBDIR=/usr/lib/security"
+make_install_target="install-lib"
+hostmakedepends="python-Sphinx"
+makedepends="python-devel pam-devel"
+depends="python"
+short_desc="PAM module that allows PAM modules to be written in Python"
+maintainer="Francesco Circhetta <francesco.circhetta@gmail.com>"
+license="AGPL-3.0-only"
+homepage="http://pam-python.sourceforge.net/"
+distfiles="${SOURCEFORGE_SITE}/${pkgname}/${pkgname}-${version}-1/${pkgname}-${version}.tar.gz"
+checksum=96ce72fe355b03b87c0eb540ecef06f33738f98f56581e81eb5bffbad1a47e07
+
+post_install() {
+	vlicense agpl-3.0.txt
+}
