@@ -1,0 +1,18 @@
+# Template file for 'python3-dlib'
+pkgname=python3-dlib
+version=19.21
+revision=1
+wrksrc="dlib-${version}"
+build_style=python3-module
+make_build_args="--no DLIB_USE_CUDA"
+hostmakedepends="python3-devel python3-setuptools pkg-config cmake"
+makedepends="python3-devel cblas-devel giflib-devel lapack-devel libjpeg-turbo-devel libpng-devel libX11-devel"
+depends="python3"
+checkdepends="python3-more-itertools python3-pytest"
+short_desc="Toolkit for real world machine learning and data analysis applications"
+maintainer="Francesco Circhetta <francesco.circhetta@gmail.com>"
+license="BSL-1.0"
+homepage="http://www.dlib.net/"
+distfiles="http://www.dlib.net/files/dlib-${version}.tar.bz2"
+checksum=be728a03ae8c4dc8b48408d90392a3c28bc6642a6eb22f3885895b434d7df53c
+nocross="python3-dlib is nocross"
