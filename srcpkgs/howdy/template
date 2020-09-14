@@ -1,0 +1,43 @@
+# Template file for 'howdy'
+pkgname=howdy
+version=2.6.1
+revision=1
+create_wrksrc=yes
+build_wrksrc=$pkgname-$version
+depends="python3-face_recognition python3-face_recognition_models libopencv-python3 pam-python python3-ffmpeg-python"
+conf_files="/usr/lib/security/howdy/config.ini"
+short_desc="Windows Hello for Linux"
+maintainer="Francesco Circhetta <francesco.circhetta@gmail.com>"
+license="MIT"
+homepage="https://github.com/boltgolt/howdy"
+distfiles="
+ https://github.com/boltgolt/howdy/archive/v${version}.tar.gz
+ https://github.com/davisking/dlib-models/raw/master/dlib_face_recognition_resnet_model_v1.dat.bz2
+ https://github.com/davisking/dlib-models/raw/master/mmod_human_face_detector.dat.bz2
+ https://github.com/davisking/dlib-models/raw/master/shape_predictor_5_face_landmarks.dat.bz2"
+checksum="f3f48599f78fd82b049539fcfc34de25c9435cad732697bdda94e85352964794
+ abb1f61041e434465855ce81c2bd546e830d28bcbed8d27ffbe5bb408b11553a
+ db9e9e40f092c118d5eb3e643935b216838170793559515541c56a2b50d9fc84
+ 6e787bbebf5c9efdb793f6cd1f023230c4413306605f24f299f12869f95aa472"
+
+post_extract() {
+	rm -rf ${build_wrksrc}/src/dlib-data/{Readme.md,install.sh,.gitignore}
+}
+
+do_install() {
+	vmkdir usr/lib/security/howdy
+	vcopy "src/*" usr/lib/security/howdy
+
+	vmkdir usr/bin
+	ln -s /usr/lib/security/howdy/cli.py $DESTDIR/usr/bin/howdy
+
+	vcopy ../dlib_face_recognition_resnet_model_v1.dat usr/lib/security/howdy/dlib-data/
+	vcopy ../mmod_human_face_detector.dat usr/lib/security/howdy/dlib-data/
+	vcopy ../shape_predictor_5_face_landmarks.dat usr/lib/security/howdy/dlib-data/
+
+	vcompletion autocomplete/howdy bash
+}
+
+post_install() {
+	vlicense LICENSE
+}
