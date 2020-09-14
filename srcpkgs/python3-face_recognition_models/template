@@ -1,0 +1,23 @@
+# Template file for 'python3-face_recognition_models'
+pkgname=python3-face_recognition_models
+version=0.3.0
+revision=2
+wrksrc="face_recognition_models-${version}"
+build_style=python3-module
+make_check_target="test"
+hostmakedepends="python3-setuptools"
+makedepends="python3-setuptools"
+short_desc="Trained models for the face_recognition python library"
+maintainer="Francesco Circhetta <francesco.circhetta@gmail.com>"
+license="CC0-1.0"
+homepage="https://github.com/ageitgey/face_recognition_models"
+distfiles="${PYPI_SITE}/f/face_recognition_models/face_recognition_models-${version}.tar.gz"
+checksum=b79bd200a88c87c9a9d446c990ae71c5a626d1f3730174e6d570157ff1d896cf
+
+do_check() {
+	: no test is shipped
+}
+
+post_install() {
+	vlicense LICENSE
+}
