@@ -1,0 +1,18 @@
+# Template file for 'isw'
+pkgname=isw
+version=1.10
+revision=1
+conf_files="/etc/isw.conf"
+short_desc="Fan control tool for MSI gaming series laptops"
+maintainer="Francesco Circhetta <francesco.circhetta@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/YoyPa/isw"
+distfiles="https://github.com/YoyPa/isw/archive/${version}.tar.gz"
+checksum=6ffc707ad735a88454b77ed168de6c32aacd590499346587544c69895928a578
+
+do_install() {
+	vinstall etc/isw.conf 644 etc
+	vinstall etc/modprobe.d/isw-ec_sys.conf 644 usr/lib/modprobe.d
+	vinstall etc/modules-load.d/isw-ec_sys.conf 644 usr/lib/modules-load.d
+	vinstall isw 755 usr/bin
+}
