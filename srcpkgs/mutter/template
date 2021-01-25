@@ -23,10 +23,6 @@ checksum=b2321e73d1e3fe2e90e6301f42bba07f4d94bc64756a2bf13d75ae9d6faa201f
 shlib_provides="libmutter-clutter-7.so libmutter-cogl-7.so
  libmutter-cogl-pango-7.so libmutter-cogl-path-7.so"
 
-pre_build() {
-	ninja ${makejobs} -C build src/meta-dbus-display-config.h
-}
-
 # needs X
 do_check() {
 	:
