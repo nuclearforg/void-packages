@@ -1,0 +1,15 @@
+# Template file for 'snapper-gui-git'
+pkgname=snapper-gui-git
+version=20201019
+revision=1
+_commit=f0c67abe0e10cc9e2ebed400cf80ecdf763fb1d1
+wrksrc="snapper-gui-${_commit}"
+build_style=python3-module
+hostmakedepends="python3 python3-setuptools"
+depends="python3 snapper gtk+3 gtksourceview python3-dbus python3-gobject"
+short_desc="GUI for snapper"
+maintainer="Francesco Circhetta <francesco.circhetta@gmail.com>"
+license="GPL-2.0-or-later"
+homepage="https://github.com/ricardomv/snapper-gui"
+distfiles="https://github.com/ricardomv/snapper-gui/archive/${_commit}.tar.gz"
+checksum=80426317679f5b2859ec317b5d8aec9b57d19532d8dd88042e190da4722ce8aa
