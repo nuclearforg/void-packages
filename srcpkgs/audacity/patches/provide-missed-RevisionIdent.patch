@@ -1,0 +1,6 @@
+--- /dev/null
++++ src/RevisionIdent.h
+@@ -0,0 +1,3 @@
++#define REV_LONG "d5d4c46a3f6ae59e63ec79336def5139dbf04f48"
++#define REV_TIME "Tue Mar 9 10:19:38 2021 +0000"
++

@@ -1,0 +1,41 @@
+--- cmake-proxies/wxWidgets/CMakeLists.txt
++++ cmake-proxies/wxWidgets/CMakeLists.txt
+@@ -237,17 +237,6 @@ file(
+       "^#define +wxVERSION_STRING +"
+ )
+ 
+-string( REGEX MATCHALL "\".+(Audacity).+\"" ours "${output}")
+-if( NOT ours )
+-   message( FATAL_ERROR
+-      "\n########################################################################\n"
+-      "Audacity version 3.0.0 or higher requires use of a customized version of "
+-      "wxWidgets.  For details:\n"
+-      "  https://wiki.audacityteam.org/wiki/Building_for_Distros\n"
+-      "########################################################################\n"
+-   )
+-endif()
+-
+ target_include_directories( ${TARGET} INTERFACE ${INCLUDES} )
+ target_compile_definitions( ${TARGET} INTERFACE ${DEFINES} )
+ target_compile_options( ${TARGET} INTERFACE ${COPTS} )
+--- src/CMakeLists.txt
++++ src/CMakeLists.txt
+@@ -1275,18 +1275,6 @@ else()
+ 
+    # Create the desktop file
+    configure_file( audacity.desktop.in ${_INTDIR}/audacity.desktop )
+-
+-   # Copy the required wxWidgets libs into the bundle
+-   add_custom_command(
+-      TARGET
+-         ${TARGET}
+-      COMMAND
+-         ${CMAKE_COMMAND} -D SRC="${_EXEDIR}/audacity"
+-                          -D DST="${_DEST}/${_PKGLIB}"
+-                          -D WXWIN="${WXWIN}"
+-                          -P ${CMAKE_MODULE_PATH}/CopyLibs.cmake
+-      POST_BUILD
+-   )
+ endif()
+ 
+ set_target_property_all( ${TARGET} RUNTIME_OUTPUT_NAME ${AUDACITY_NAME} )

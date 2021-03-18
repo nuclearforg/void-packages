@@ -1,12 +1,17 @@
 # Template file for 'audacity'
 pkgname=audacity
-version=2.4.1
-revision=2
+version=3.0.0
+revision=1
 wrksrc="${pkgname}-Audacity-${version}"
-build_style=gnu-configure
-configure_args="--with-ffmpeg=system --with-libsndfile=system --with-expat=system
- --with-libsoxr=system --with-lame=system --with-lv2=system ac_cv_path_WX_CONFIG=wx-config-gtk3"
-hostmakedepends="pkg-config cmake gettext libtool m4 python which"
+build_style=cmake
+build_helper=cmake-wxWidgets-gtk3
+configure_args="-Daudacity_use_sndfile=system -Daudacity_use_soxr=system
+ -Daudacity_use_lame=system -Daudacity_use_twolame=system -Daudacity_use_flac=system
+ -Daudacity_use_vorbis=system -Daudacity_use_id3tag=system -Daudacity_use_expat=system
+ -Daudacity_use_soundtouch=system -Daudacity_use_vamp=system -Daudacity_use_lv2=system
+ -Daudacity_use_portaudio=local -Daudacity_use_midi=local -Daudacity_use_ogg=system
+ -Daudacity_use_ffmpeg=loaded"
+hostmakedepends="pkg-config gettext python"
 makedepends="jack-devel wxWidgets-gtk3-devel gtk+3-devel
  libmad-devel soundtouch-devel libsoxr-devel
  vamp-plugin-sdk-devel lame-devel libid3tag-devel libflac-devel
@@ -17,12 +22,7 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-2.0-or-later"
 homepage="https://www.audacityteam.org"
 distfiles="https://github.com/${pkgname}/${pkgname}/archive/Audacity-${version}.tar.gz"
-checksum=50240f07471373a7e5c2df65cc26eeeaaced9a0850ad1f95cb795f171ea3009f
-
-case "$XBPS_TARGET_MACHINE" in
-	i686*|x86_64*) ;;
-	*) configure_args+=" --disable-sse" ;;
-esac
+checksum=14c5b6d661fbe85fa09b7caac5fa261e392a28150fa18fca91380e695ca76cc9
 
 if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
 	makedepends+=" libatomic-devel"
@@ -32,7 +32,4 @@ fi
 post_install() {
 	vcopy nyquist /usr/share/audacity
 	vcopy plug-ins /usr/share/audacity
-
-	rm ${DESTDIR}/usr/share/doc/${pkgname}/LICENSE.txt
-	vlicense LICENSE.txt LICENSE
 }
