@@ -1,0 +1,102 @@
+# Template file for 'openmodelica'
+pkgname=openmodelica
+version=1.17.0
+revision=1
+wrksrc=OpenModelica-${version}
+build_style=gnu-configure
+build_helper=qmake
+configure_args="--with-omniORB --with-cppruntime"
+hostmakedepends="cmake libtool gettext pkg-config autoconf automake which
+ openjdk-jre qt5-host-tools qt5-qmake gcc-fortran git bison flex xz tar
+ ImageMagick"
+makedepends="bison expat-devel libffi-devel lpsolve-devel lapack-devel
+ blas-devel libcurl-devel readline-devel libuuid-devel qt5-devel qt5-svg-devel
+ hdf5-devel libhwloc-devel qt5-webkit-devel qt5-xmlpatterns-devel libomp-devel
+ osg-devel boost-devel omniorb-devel"
+depends="lapack-devel gcc gcc-fortran"
+short_desc="Open Source Modelica Suite"
+maintainer="Francesco Circhetta <francesco.circhetta@gmail.com>"
+license="custom:OSMC"
+homepage="https://openmodelica.org/"
+_OMCompiler_3rdParty_commit=f05b36db1931e37059cd9b3800b9094f72d6e10f
+_OMOptim_commit=fed1b1a2f3a00f5d07f1fa8940fdcee662888a65
+_OMSens_commit=10395b3169c5a210eaef2f8d64146ec49668846f
+_OMSens_Qt_commit=59ad940633978ac89614b67ce0634bcb78d405b4
+_common_commit=c9c90856e0875fc31ccc71f97114023dc640170b
+_OMSimulator_commit=c8ec782983acc160271c0368afeb4b70ba861463
+_OMSimulator_3rdParty_commit=80f0b28de14b1cab3f0542acbbd6294d43d05ca1
+_OMTLMSimulator_commit=0e6f300c1fe0a50fb4c4b24b01d21dcf0de1c5dd
+_OMLibraries_commit=c5f7048f4682b367d59a01145e777a041ac4a558
+distfiles="https://github.com/OpenModelica/OpenModelica/archive/v${version}.tar.gz
+ https://github.com/OpenModelica/OMCompiler-3rdParty/archive/${_OMCompiler_3rdParty_commit}.tar.gz
+ https://github.com/OpenModelica/OMOptim/archive/${_OMOptim_commit}.tar.gz
+ https://github.com/OpenModelica/OMSens/archive/${_OMSens_commit}.tar.gz
+ https://github.com/OpenModelica/OMSens_Qt/archive/${_OMSens_Qt_commit}.tar.gz
+ https://github.com/OpenModelica/OpenModelica-common/archive/${_common_commit}.tar.gz
+ https://github.com/OpenModelica/OMSimulator/archive/${_OMSimulator_commit}.tar.gz
+ https://github.com/OpenModelica/OMSimulator-3rdParty/archive/${_OMSimulator_3rdParty_commit}.tar.gz
+ https://github.com/OpenModelica/OMTLMSimulator/archive/${_OMTLMSimulator_commit}.tar.gz
+ https://github.com/OpenModelica/OMLibraries/archive/${_OMLibraries_commit}.tar.gz"
+checksum="a0c430632ddfb0e53374a2ce42cde8f56ed0af66aa1f0d04a4dabb0b39b436af
+ 1e7c7b3df0e82ad1e0b26957a12fe5aa2d5a5c66b129c947dd0e786f31116048
+ 25d4acbabffc961449e18219ffa0fa080ff04d19f8de9c2a0e2ff8e268d478f1
+ 7e0780923287e6f30637833f1f1e04efac7879f15e1179f493ac419b93cb8289
+ 199ec7b3f1546bfe877f34ddd5335ccdb8e4e6a4e3b2082d311731bc1b9d8982
+ 92e0d0434f094b3600fabc3c8dce41b9b65c8049df88d47f77781fd54d28595a
+ 607ecd302c81f519860b37ba33938b1d28e1013b1e7a84b84809fcacf122e6e1
+ e564c06549b6f9e956553fabcdfbbecb868db5f2031803f2ce496605bf0268ce
+ 57e72de685d65bfbd5c85ce96f79d2081853ce8e46e6dcd6ab7ac7e16874c063
+ 9e3c9254b1f3d3e373d906190ff532480bdb4b53191446279671bb2b1113a055"
+python_version=3
+nostrip=yes
+
+post_extract() {
+	# move submodule to proper location
+	rmdir OMOptim
+	rmdir OMSens
+	rmdir OMSens_Qt
+	rmdir OMSimulator
+	rmdir libraries
+
+	mv ../OMOptim-${_OMOptim_commit} OMOptim
+	mv ../OMSens-${_OMSens_commit} OMSens
+	mv ../OMSens_Qt-${_OMSens_Qt_commit} OMSens_Qt
+	mv ../OMSimulator-${_OMSimulator_commit} OMSimulator
+	mv ../OMLibraries-${_OMLibraries_commit} libraries
+
+	rmdir OMCompiler/3rdParty
+	rmdir OMOptim/common
+	rmdir OMSens_Qt/common
+	rmdir OMSimulator/3rdParty
+	rmdir OMSimulator/OMTLMSimulator
+
+	mv ../OMCompiler-3rdParty-${_OMCompiler_3rdParty_commit} OMCompiler/3rdParty
+	cp -a ../OpenModelica-common-${_common_commit} OMOptim/common
+	mv ../OpenModelica-common-${_common_commit} OMSens_Qt/common
+	mv ../OMSimulator-3rdParty-${_OMSimulator_3rdParty_commit} OMSimulator/3rdParty
+	mv ../OMTLMSimulator-${_OMTLMSimulator_commit} OMSimulator/OMTLMSimulator
+}
+
+pre_configure() {
+	autoconf
+}
+
+post_install() {
+	rm ${DESTDIR}/usr/lib64
+
+	vlicense OSMC-License.txt
+
+	# Desktop
+	vmkdir usr/share/applications
+	vinstall ${FILESDIR}/omedit.desktop 644 usr/share/applications
+	vinstall ${FILESDIR}/omnotebook.desktop 644 usr/share/applications
+	vinstall ${FILESDIR}/omoptim.desktop 644 usr/share/applications
+	vinstall ${FILESDIR}/omshell.desktop 644 usr/share/applications
+	vinstall ${FILESDIR}/omshell-terminal.desktop 644 usr/share/applications
+
+	vinstall OMEdit/OMEditLIB/Resources/icons/omedit.png 644 usr/share/pixmaps
+	vinstall OMNotebook/OMNotebook/OMNotebookGUI/Resources/OMNotebook_icon.svg 644 usr/share/pixmaps
+	vinstall OMOptim/OMOptim/GUI/Resources/omoptim.ico 644 usr/share/pixmaps
+	vinstall OMShell/OMShell/OMShellGUI/Resources/omshell-large.svg 644 usr/share/pixmaps
+	vinstall OMShell/OMShell/OMShellGUI/Resources/omshell-terminal-large.svg 644 usr/share/pixmaps
+}
