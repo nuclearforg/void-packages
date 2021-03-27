@@ -1,0 +1,48 @@
+diff --git a/data/meson.build b/data/meson.build
+index 0e1d69d..b009b7f 100644
+--- a/data/meson.build
++++ b/data/meson.build
+@@ -1,13 +1,6 @@
+ data_conf = configuration_data()
+ data_conf.set('libexecdir', libexecdir)
+ 
+-configure_file(
+-  input: 'switcheroo-control.service.in',
+-  output: 'switcheroo-control.service',
+-  configuration: data_conf,
+-  install_dir: systemd_systemunitdir,
+-)
+-
+ install_data(
+   'net.hadess.SwitcherooControl.conf',
+   install_dir: sysconfdir / 'dbus-1/system.d',
+diff --git a/meson.build b/meson.build
+index 74adb6c..f7cec87 100644
+--- a/meson.build
++++ b/meson.build
+@@ -21,11 +21,6 @@ glib = dependency('glib-2.0', version: '>= 2.56.0')
+ gio = dependency('gio-2.0', version: '>= 2.56.0')
+ gudev = dependency('gudev-1.0', version: '>= 232')
+ 
+-systemd_systemunitdir = get_option('systemdsystemunitdir')
+-if systemd_systemunitdir == ''
+-  systemd_systemunitdir = dependency('systemd').get_pkgconfig_variable('systemdsystemunitdir')
+-endif
+-
+ hwdb_dir = get_option('hwdbdir')
+ if hwdb_dir == ''
+   udevdir = dependency('udev').get_pkgconfig_variable('udevdir')
+diff --git a/meson_options.txt b/meson_options.txt
+index 2d071f0..9e6569b 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -1,9 +1,3 @@
+-option('systemdsystemunitdir',
+-  type: 'string',
+-  value: '',
+-  description: 'Directory for systemd service files',
+-)
+-
+ option('hwdbdir',
+   type: 'string',
+   value: '',

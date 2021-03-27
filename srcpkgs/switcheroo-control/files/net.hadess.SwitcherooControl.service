@@ -1,0 +1,5 @@
+[D-BUS Service]
+Name=net.hadess.SwitcherooControl
+Exec=/usr/libexec/switcheroo-control
+User=root
+SystemdService=switcheroo-control.service
