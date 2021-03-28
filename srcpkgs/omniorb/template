@@ -1,0 +1,30 @@
+# Template file for 'omniorb'
+pkgname=omniorb
+version=4.2.4
+revision=1
+wrksrc=omniORB-${version}
+build_style=gnu-configure
+configure_args="--with-omniORB-config=/etc/omniorb/omniORB.cfg
+ --with-omniNames-logdir=/var/log/omniORB
+ --with-openssl=/usr"
+hostmakedepends="pkg-config python3"
+makedepends="python3-devel openssl-devel"
+depends="python3"
+short_desc="CORBA object request broker for C++ and Python"
+maintainer="Francesco Circhetta <francesco.circhetta@gmail.com>"
+license="GPL-2.0-or-later,LGPL-2.0-or-later"
+homepage="http://omniorb.sourceforge.net/"
+distfiles="${SOURCEFORGE_SITE}/omniorb/omniORB-${version}.tar.bz2"
+checksum=28c01cd0df76c1e81524ca369dc9e6e75f57dc70f30688c99c67926e4bdc7a6f
+lib32disabled=yes
+
+omniorb-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+		vmove "usr/lib/*.a"
+		vmove "usr/lib/*.so"
+	}
+}

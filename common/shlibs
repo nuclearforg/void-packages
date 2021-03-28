@@ -4043,6 +4043,14 @@ libwayland-client++.so.0 libwaylandpp-0.2.8_1
 libwayland-cursor++.so.0 libwaylandpp-0.2.8_1
 libwayland-egl++.so.0 libwaylandpp-0.2.8_1
 libwayland-client-extra++.so.0 libwaylandpp-0.2.8_1
+libomnithread.so.4 omniorb-4.2.4_1
+libomniORB4.so.2 omniorb-4.2.4_1
+libomnisslTP4.so.2 omniorb-4.2.4_1
+libomniDynamic4.so.2 omniorb-4.2.4_1
+libomniCodeSets4.so.2 omniorb-4.2.4_1
+libomniConnectionMgmt4.so.2 omniorb-4.2.4_1
+libCOS4.so.2 omniorb-4.2.4_1
+libCOSDynamic4.so.2 omniorb-4.2.4_1
 libspdlog.so.1 libspdlog-1.8.2_2
 libmd.so.0 libmd-1.0.3_1
 libldacBT_abr.so.2 ldacBT-2.0.2.3_1
